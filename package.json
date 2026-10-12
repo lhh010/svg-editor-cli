@@ -4,7 +4,7 @@
   "description": "CLI SVG editor (Fudan SD PJ1 Phase 1)",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "cli": "tsc -p tsconfig.json && node dist/src/cli/Main.js",
+    "cli": "tsc -p tsconfig.json && node dist/cli/Main.js",
     "test": "tsc -p tsconfig.json && node dist/tests/run.js"
   },
   "devDependencies": {

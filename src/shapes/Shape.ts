@@ -40,6 +40,11 @@ export abstract class Shape {
   /** tree 内联的几何摘要（如 "x=0 y=0 w=800 h=600"），容器返回 null。 */
   abstract geometrySummary(): string | null;
 
+  /** tree 内联摘要；默认即几何摘要，可复写以附带外观属性。 */
+  treeSummary(): string | null {
+    return this.geometrySummary();
+  }
+
   /** show 的属性行（不含 parent 行，由视图层拼装）。 */
   abstract detailLines(): string[];
 
@@ -64,6 +69,13 @@ export abstract class Shape {
     if (this.stroke !== null) s += ' stroke="' + this.stroke + '"';
     if (this.strokeWidth !== null) s += ' stroke-width="' + this.strokeWidth + '"';
     return s;
+  }
+
+  /** 撤销 set 时把属性还原为"未设置"（仅公共外观属性需要）。 */
+  clearAttribute(attr: string): void {
+    if (attr === "fill") this.fill = null;
+    else if (attr === "stroke") this.stroke = null;
+    else if (attr === "stroke-width") this.strokeWidth = null;
   }
 
   /** set 公共属性（fill/stroke/stroke-width）；不属于公共属性返回 undefined 交子类判断。 */

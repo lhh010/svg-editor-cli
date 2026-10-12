@@ -24,13 +24,11 @@ export class Group extends Shape {
   }
 
   appendChild(child: Shape): void {
-    this.detachFromCurrentParent(child);
     child.parent = this;
     this._children.push(child);
   }
 
   insertChildAt(child: Shape, index: number): void {
-    this.detachFromCurrentParent(child);
     child.parent = this;
     this._children.splice(index, 0, child);
   }
@@ -47,14 +45,6 @@ export class Group extends Shape {
     return this._children.indexOf(child);
   }
 
-  private detachFromCurrentParent(child: Shape): void {
-    if (child.parent !== null && child.parent !== this) {
-      child.parent.removeChild(child);
-    } else if (child.parent === this) {
-      const i = this._children.indexOf(child);
-      if (i >= 0) this._children.splice(i, 1);
-    }
-  }
 
   moveBy(dx: number, dy: number): void {
     for (const c of this._children) c.moveBy(dx, dy);

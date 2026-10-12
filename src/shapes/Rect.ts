@@ -25,6 +25,13 @@ export class Rect extends Shape {
     return `x=${Shape.fmt(this.x)} y=${Shape.fmt(this.y)} w=${Shape.fmt(this.width)} h=${Shape.fmt(this.height)}`;
   }
 
+  treeSummary(): string {
+    let s = this.geometrySummary()!;
+    if (this.fill !== null) s += ` fill=${this.fill}`;
+    if (this.stroke !== null) s += ` stroke=${this.stroke}`;
+    return s;
+  }
+
   detailLines(): string[] {
     const lines = [this.geometrySummary()!];
     if (this.fill !== null) lines.push(`fill=${this.fill}`);

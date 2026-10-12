@@ -24,6 +24,13 @@ export class Circle extends Shape {
     return "cx=" + Shape.fmt(this.cx) + " cy=" + Shape.fmt(this.cy) + " r=" + Shape.fmt(this.r);
   }
 
+  treeSummary(): string {
+    let s = this.geometrySummary()!;
+    if (this.fill !== null) s += " fill=" + this.fill;
+    if (this.stroke !== null) s += " stroke=" + this.stroke;
+    return s;
+  }
+
   detailLines(): string[] {
     const lines = [this.geometrySummary()!];
     if (this.fill !== null) lines.push("fill=" + this.fill);
