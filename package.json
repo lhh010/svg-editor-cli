@@ -1,0 +1,14 @@
+{
+  "name": "svg-editor-cli",
+  "version": "0.1.0",
+  "description": "CLI SVG editor (Fudan SD PJ1 Phase 1)",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "cli": "tsc -p tsconfig.json && node dist/src/cli/Main.js",
+    "test": "tsc -p tsconfig.json && node dist/tests/run.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}
