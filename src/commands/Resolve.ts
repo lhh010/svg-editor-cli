@@ -12,7 +12,8 @@ export function mustFind(doc: SvgDocument, id: string): Shape {
 }
 
 export function mustFindContainer(doc: SvgDocument, id: string): Group {
-  const s = mustFind(doc, id);
+  const s = doc.findById(id);
+  if (s === null) throw new CliError("no such container: " + id);
   if (!(s instanceof Group)) throw new CliError("not a container: " + id);
   return s;
 }
