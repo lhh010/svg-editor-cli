@@ -18,6 +18,7 @@ create g no in flow
 create rect n 650 310 190 60 #d0021b in no
 create text n-label 676 346 "执行处理 B" in no
 set n-label fill white
+create line l0 240 250 340 250 black in flow
 create line l1 520 250 650 160 black in flow
 create line l2 520 250 650 340 black in flow
 create text yes-lbl 545 195 "yes" in flow
