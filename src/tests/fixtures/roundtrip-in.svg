@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect id="bg" x="0" y="0" width="400" height="300" fill="#ffffff"/>
+  <g id="g1">
+    <circle id="c1" cx="100" cy="100" r="20" fill="red"/>
+    <text id="t1" x="10" y="290">imported</text>
+  </g>
+</svg>

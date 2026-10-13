@@ -223,3 +223,9 @@ ShapeFactory --> LeafShapes
 5. **git 历史**：六个提交对应真实开发增量（脚手架 → shapes → io → cli+commands → tests → docs），
    每个提交均可独立编译，体现分步推进过程。
 
+### 运行证据
+
+REPL 会话：按规范 6.1 版本 A 逐步构建两节点流程图（`in` 子句建层级、容器移动、undo 回显、`save` 输出 8 elements）：
+
+![REPL 会话](images/repl-session.png)
+

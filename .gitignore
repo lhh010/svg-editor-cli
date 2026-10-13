@@ -2,3 +2,4 @@ node_modules/
 dist/
 *.svg
 *.log
+!src/tests/fixtures/*.svg
