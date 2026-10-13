@@ -229,3 +229,12 @@ REPL 会话：按规范 6.1 版本 A 逐步构建两节点流程图（`in` 子�
 
 ![REPL 会话](images/repl-session.png)
 
+
+验收测试：`npm test` 全部通过（45 项断言，0 失败），下方同时展示了 `git log --oneline` 的分步提交历史：
+
+![测试结果与提交历史](images/test-passed.png)
+
+浏览器渲染验证：`save flowchart.svg` 的产物直接在浏览器中打开——蓝色"开始"节点、橙色"处理数据"节点与连线正确呈现，证明序列化输出是合法 SVG：
+
+![浏览器渲染 flowchart.svg](images/flowchart-render.png)
+
