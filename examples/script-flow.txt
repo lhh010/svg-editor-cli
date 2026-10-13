@@ -1,0 +1,25 @@
+init 900 500
+create rect bg 0 0 900 500 #f8f9fa
+create text title 410 50 "分支流程图"
+set title fill #333333
+create g flow
+create g start-node in flow
+create rect s 80 220 160 60 #4a90d9 in start-node
+create text s-label 144 256 "开始" in start-node
+set s-label fill white
+create g cond in flow
+create ellipse cond-shape 430 250 90 45 #f5a623 in cond
+create text cond-label 388 256 "数据 valid ?" in cond
+create g yes in flow
+create rect y 650 130 190 60 #7ed321 in yes
+create text y-label 676 166 "执行处理 A" in yes
+set y-label fill white
+create g no in flow
+create rect n 650 310 190 60 #d0021b in no
+create text n-label 676 346 "执行处理 B" in no
+set n-label fill white
+create line l1 520 250 650 160 black in flow
+create line l2 520 250 650 340 black in flow
+create text yes-lbl 545 195 "yes" in flow
+create text no-lbl 545 320 "no" in flow
+save examples/flow-branch.svg

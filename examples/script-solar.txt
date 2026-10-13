@@ -1,0 +1,31 @@
+init 1000 640
+create rect bg 0 0 1000 640 #0b1026
+create g solar
+create circle sun 500 320 70 #f5a623 in solar
+create circle orbit1 500 320 150 none in solar
+set orbit1 stroke #556677
+set orbit1 stroke-width 1.5
+create circle orbit2 500 320 240 none in solar
+set orbit2 stroke #556677
+set orbit2 stroke-width 1.5
+create g mars in solar
+create circle mars-body 606 214 10 #d0021b in mars
+create g earth-system in solar
+create circle earth 740 320 24 #4a90d9 in earth-system
+create circle moon 792 290 9 #cccccc in earth-system
+create g asteroid-belt in solar
+create circle a1 695 320 3 #8899aa in asteroid-belt
+create circle a2 669 222 3 #8899aa in asteroid-belt
+create circle a3 597 151 3 #8899aa in asteroid-belt
+create circle a4 500 125 3 #8899aa in asteroid-belt
+create circle a5 402 151 3 #8899aa in asteroid-belt
+create circle a6 331 222 3 #8899aa in asteroid-belt
+create circle a7 305 320 3 #8899aa in asteroid-belt
+create circle a8 331 417 3 #8899aa in asteroid-belt
+create circle a9 402 489 3 #8899aa in asteroid-belt
+create circle a10 500 515 3 #8899aa in asteroid-belt
+create circle a11 597 489 3 #8899aa in asteroid-belt
+create circle a12 669 417 3 #8899aa in asteroid-belt
+create text caption 380 612 "太阳系示意（嵌套 group + 轨道）"
+set caption fill #aabbcc
+save examples/solar.svg

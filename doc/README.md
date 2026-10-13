@@ -1,4 +1,4 @@
-﻿# SVG 编辑器（CLI）— PJ1 Phase 1
+# SVG 编辑器（CLI）— PJ1 Phase 1
 
 一个用 TypeScript + 面向对象实现的命令行 SVG 编辑器：通过 REPL 完成 SVG 文档的
 创建 / 读取 / 保存，以及图形的创建、移动、缩放、分组、删除、属性修改、结构查看与撤销重做。
@@ -227,7 +227,7 @@ ShapeFactory --> LeafShapes
 
 REPL 会话：按规范 6.1 版本 A 逐步构建两节点流程图（`in` 子句建层级、容器移动、undo 回显、`save` 输出 8 elements）：
 
-![REPL 会话](images/repl-session.png)
+![REPL 会话|450](images/repl-session.png)
 
 
 验收测试：`npm test` 全部通过（45 项断言，0 失败），下方同时展示了 `git log --oneline` 的分步提交历史：
@@ -237,4 +237,21 @@ REPL 会话：按规范 6.1 版本 A 逐步构建两节点流程图（`in` 子�
 浏览器渲染验证：`save flowchart.svg` 的产物直接在浏览器中打开——蓝色"开始"节点、橙色"处理数据"节点与连线正确呈现，证明序列化输出是合法 SVG：
 
 ![浏览器渲染 flowchart.svg](images/flowchart-render.png)
+
+
+### 复杂场景示例
+
+三个可回放的示例脚本见 'examples/script-*.txt'（规范第 2 节"命令序列存成脚本回放"约定的实践），通过 'cmd /c "node dist/cli/Main.js < examples/script-solar.txt"' 管道回放生成 SVG。
+
+**分支流程图**（19 elements）：三层嵌套 group（flow → 各节点容器 → 叶子），椭圆判断节点 + 双分支连线，覆盖 'ellipse' 类型、多层 'in' 子句与 'set fill' 修改文字颜色：
+
+![分支流程图](images/example-flow-branch.png)
+
+**太阳系示意**（30 elements）：'solar' 内嵌 'earth-system'、'mars'、'asteroid-belt' 多个子容器；轨道用 'fill none' + 'set stroke/stroke-width' 画出无填充描边圆；12 颗小行星均匀分布在两条轨道之间的圆环上（每 30° 一颗，坐标按三角函数预计算）：
+
+![太阳系示意](images/example-solar.png)
+
+**彩虹同心圆**（9 elements）：七层同心圆验证 z-order（后创建的圆覆盖先创建的），白字居中于最小圆内（按默认 16px 字号估宽定位）：
+
+![彩虹同心圆](images/example-rainbow.png)
 

@@ -1,0 +1,13 @@
+init 800 620
+create rect bg 0 0 800 620 #111111
+create g rainbow
+create circle r1 400 330 220 #e74c3c in rainbow
+create circle r2 400 330 190 #e67e22 in rainbow
+create circle r3 400 330 160 #f1c40f in rainbow
+create circle r4 400 330 130 #2ecc71 in rainbow
+create circle r5 400 330 100 #1abc9c in rainbow
+create circle r6 400 330 70 #3498db in rainbow
+create circle r7 400 330 40 #9b59b6 in rainbow
+create text t 382 337 "SVG!"
+set t fill white
+save examples/rainbow.svg
