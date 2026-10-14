@@ -1,5 +1,4 @@
 __copyright-lhh__
-# 24302010010 李海豪 软件设计 pj1 
 ## SVG 编辑器（CLI）— PJ1 Phase 1
 
 > 仓库地址 :  [[lhh010/svg-editor-cli](https://github.com/lhh010/svg-editor-cli)](https://github.com/lhh010/svg-editor-cli)
@@ -319,7 +318,7 @@ svg> undo
 error: undo not allowed after io command
 ```
 
-![错误信息演示（终端）](images/error-demo.png)
+![错误信息演示（终端）|500](images/error-demo.png)
 
 要点说明：
 
