@@ -262,7 +262,7 @@ REPL 会话：按规范 6.1 版本 A 逐步构建两节点流程图（`in` 子�
 
 ### 错误信息演示（规范 4.2 对照）
 
-以下 transcript 由真实程序输出捕获（回放脚本见 `examples/script-errors.txt`，管道方式 `cmd /c "node dist/cli/Main.js < examples/script-errors.txt"`），逐条覆盖规范 4.2 的错误信息约定：
+以下 transcript 由真实程序输出捕获（回放脚本见 `examples/script-errors.txt`，管道方式 `cmd /c "node dist/cli/Main.js < examples/script-errors.txt"`），逐条覆盖规范 4.2 的错误信息约定（终端输出截图，错误行红色标注）：
 
 ```text
 svg> tree
@@ -318,6 +318,8 @@ saved to err-demo.svg (6 elements)
 svg> undo
 error: undo not allowed after io command
 ```
+
+![错误信息演示（终端）](images/error-demo.png)
 
 要点说明：
 
