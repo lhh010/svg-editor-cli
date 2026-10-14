@@ -1,0 +1,27 @@
+# 错误信息演示（规范 4.2 对照）
+tree
+init 400 300
+create rect r1 10 20 100 50 #eee
+create rect r1 0 0 1 1
+move r9 5 5
+create rect r2 0 0 1 1 in node9
+create rect start 0 0 10 10
+create rect r3 0 0 1 1 in start
+create hexagon h1 0 0
+create box n1 0 0 10 10 x
+create g g1
+create circle c1 50 50 10
+addto g1 c1
+create circle c2 70 70 5
+group bad c1 g1
+create g scene
+ungroup scene
+scale c1 -1
+scale c1 0
+set c1 diameter 5
+read missing.svg
+save Z:/no/such/dir/x.svg
+# 错误不改变状态：r1 仍然完好
+show r1
+save err-demo.svg
+undo

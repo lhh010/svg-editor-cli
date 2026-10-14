@@ -1,0 +1,30 @@
+svg-editor 0.1 — type 'help' for commands
+
+svg> svg> svg> error: no document. use 'init' or 'read' first
+svg> canvas 400x300 created
+svg> rect#r1 created
+svg> error: id already exists: r1
+svg> error: no such shape: r9
+svg> error: no such container: node9
+svg> rect#start created
+svg> error: not a container: start
+svg> error: unknown shape type: hexagon (is the plugin loaded?)
+svg> error: unknown shape type: box (is the plugin loaded?)
+svg> g#g1 created
+svg> circle#c1 created
+svg> circle#c1 added to g#g1
+svg> circle#c2 created
+svg> error: cannot group a container into its own descendant: g1
+svg> g#scene created
+svg> error: cannot ungroup top-level container: scene
+svg> error: scale factor must be positive
+svg> error: scale factor must be positive
+svg> error: unknown attribute: diameter
+svg> error: cannot read file: missing.svg
+svg> error: cannot write file: Z:/no/such/dir/x.svg
+svg> rect#r1  parent=canvas
+  x=10 y=20 w=100 h=50
+  fill=#eee
+svg> saved to err-demo.svg (6 elements)
+svg> error: undo not allowed after io command
+svg> 

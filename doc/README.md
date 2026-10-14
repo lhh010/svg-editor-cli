@@ -1,4 +1,8 @@
-# SVG 编辑器（CLI）— PJ1 Phase 1
+__copyright-lhh__
+# 24302010010 李海豪 软件设计 pj1 
+## SVG 编辑器（CLI）— PJ1 Phase 1
+
+> 仓库地址 :  [[lhh010/svg-editor-cli](https://github.com/lhh010/svg-editor-cli)](https://github.com/lhh010/svg-editor-cli)
 
 一个用 TypeScript + 面向对象实现的命令行 SVG 编辑器：通过 REPL 完成 SVG 文档的
 创建 / 读取 / 保存，以及图形的创建、移动、缩放、分组、删除、属性修改、结构查看与撤销重做。
@@ -245,13 +249,79 @@ REPL 会话：按规范 6.1 版本 A 逐步构建两节点流程图（`in` 子�
 
 **分支流程图**（20 elements）：三层嵌套 group（flow → 各节点容器 → 叶子），椭圆判断节点 + 主干连线与双分支线，覆盖 `ellipse` 类型、多层 `in` 子句与 `set fill` 修改文字颜色：
 
-![分支流程图](images/example-flow-branch.png)
+![分支流程图|600](images/example-flow-branch.png)
 
 **太阳系示意**（30 elements）：`solar` 内嵌 `earth-system`、`mars`、`asteroid-belt` 多个子容器；轨道用 `fill none` + `set stroke/stroke-width` 画出无填充描边圆；12 颗小行星均匀分布在两条轨道之间的圆环上（每 30° 一颗，坐标按三角函数预计算）：
 
-![太阳系示意](images/example-solar.png)
+![太阳系示意|600](images/example-solar.png)
 
 **彩虹同心圆**（9 elements）：七层同心圆验证 z-order（后创建的圆覆盖先创建的），白字居中于最小圆内（按默认 16px 字号估宽定位）：
 
-![彩虹同心圆](images/example-rainbow.png)
+![彩虹同心圆|600](images/example-rainbow.png)
+
+
+### 错误信息演示（规范 4.2 对照）
+
+以下 transcript 由真实程序输出捕获（回放脚本见 `examples/script-errors.txt`，管道方式 `cmd /c "node dist/cli/Main.js < examples/script-errors.txt"`），逐条覆盖规范 4.2 的错误信息约定：
+
+```text
+svg> tree
+error: no document. use 'init' or 'read' first
+svg> init 400 300
+canvas 400x300 created
+svg> create rect r1 10 20 100 50 #eee
+rect#r1 created
+svg> create rect r1 0 0 1 1
+error: id already exists: r1
+svg> move r9 5 5
+error: no such shape: r9
+svg> create rect r2 0 0 1 1 in node9
+error: no such container: node9
+svg> create rect start 0 0 10 10
+rect#start created
+svg> create rect r3 0 0 1 1 in start
+error: not a container: start
+svg> create hexagon h1 0 0
+error: unknown shape type: hexagon (is the plugin loaded?)
+svg> create box n1 0 0 10 10 x
+error: unknown shape type: box (is the plugin loaded?)
+svg> create g g1
+g#g1 created
+svg> create circle c1 50 50 10
+circle#c1 created
+svg> addto g1 c1
+circle#c1 added to g#g1
+svg> create circle c2 70 70 5
+circle#c2 created
+svg> group bad c1 g1
+error: cannot group a container into its own descendant: g1
+svg> create g scene
+g#scene created
+svg> ungroup scene
+error: cannot ungroup top-level container: scene
+svg> scale c1 -1
+error: scale factor must be positive
+svg> scale c1 0
+error: scale factor must be positive
+svg> set c1 diameter 5
+error: unknown attribute: diameter
+svg> read missing.svg
+error: cannot read file: missing.svg
+svg> save Z:/no/such/dir/x.svg
+error: cannot write file: Z:/no/such/dir/x.svg
+svg> show r1
+rect#r1  parent=canvas
+  x=10 y=20 w=100 h=50
+  fill=#eee
+svg> save err-demo.svg
+saved to err-demo.svg (6 elements)
+svg> undo
+error: undo not allowed after io command
+```
+
+要点说明：
+
+- **错误不改变状态**：全部报错之后 `show r1` 证明文档完好如初，成功命令穿插于错误之间互不影响；
+- **io 锁**：save 之后 undo 被拒绝；scale 的 0 与负数同样被拒绝；
+- 4.2 表中 `cannot ungroup composite shape` 一条需要阶段 2 的 box 插件才能触发（UngroupCommand 中已预留该分支），本阶段 create box 即被拒绝，符合阶段边界约定。
 
