@@ -1,0 +1,8 @@
+
+> svg-editor-cli@0.2.0 test
+> npm run build && node dist/src/tests/run.js
+
+
+> svg-editor-cli@0.2.0 build
+> tsc -p tsconfig.json && node scripts/copy-plugin-manifests.mjs
+

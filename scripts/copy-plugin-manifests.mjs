@@ -1,4 +1,4 @@
-/** 构建后把 plugins/*/package.json（contributes 清单）复制到 dist 对应目录。 */
+// 构建后把各插件目录的 package.json（contributes 清单）复制到 dist 对应目录。
 import { readdirSync, copyFileSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
