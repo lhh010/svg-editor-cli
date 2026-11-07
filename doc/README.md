@@ -333,6 +333,8 @@ error: undo not allowed after io command
 
 # Phase 2：插件实践与插件式重构
 
+> 面向评阅的独立提交文档（设计+关键代码+截图）：[PHASE2.md](PHASE2.md)
+
 ## 第一部分：VSCode 扩展（vscode-svg-tools/）
 
 ### 使用方式
