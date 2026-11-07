@@ -511,6 +511,20 @@ package "重构后（Phase 2）" {
 | 装配 | 无（单一入口） | 组合根代码装配 / plugins.config.json 配置装配，同一注册校验路径 |
 | 复合图形 | 预留 kindLabel | box 插件落地：模板、保护、传播语义、round-trip |
 
+
+### Phase 2 功能演示（CLI 截图）
+
+一次会话同框演示四个插件：'create box' 一条命令创建复合图形；'set n2 fill' 传播到内部矩形、'set n2 label' 改写内部文本（AttributeHandler 领域语义，各自是一个 undo 单元）；'stats' 深度优先统计（box 内部叶子照常计数、box 计入 containers）；'tree' 行尾可见两个标签插件并存——'(box)' 类型标注与 '*' 未保存星标；'dir' 列出当前工作目录：
+
+![Phase 2 CLI 功能演示](../docs/images/phase2-cli-demo.png)
+
+
+### 测试运行证据（Phase 2）
+
+'npm test' 六套件全绿（45+28+26+32+17+6 = 154 项断言），以及三种启动形态（默认/方式 A、--bare、--config 方式 B）入口：
+
+![Phase 2 测试全绿](../docs/images/phase2-tests.png)
+
 ### 测试与验证材料索引
 
 - `npm test`：六个套件共 154 项断言——Phase 1 回归（45）、Phase 2 插件与装配（28，含加载器四条失败路径、重复注册回滚、非法配置、A/B 一致性）、box（26 + 降级 32）、modified-star 状态机（17）、标签并存（6）；`vscode-svg-tools` 另有独立 node 测试 15 项。
