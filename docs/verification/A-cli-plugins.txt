@@ -1,0 +1,49 @@
+svg-editor 0.1 — type 'help' for commands
+
+svg> svg> canvas 400x300 created
+svg> rect#bg created
+svg> g#scene created
+svg> rect#r1 created in g#scene
+svg> circle#c1 created in g#scene
+svg> text#t1 created
+svg> rect: 2  circle: 1  text: 1  (total 4, containers 1)
+svg> svg (400x300) *
+├── rect#bg        x=0 y=0 w=400 h=300 fill=#f8f9fa *
+├── g#scene *
+│   ├── rect#r1    x=20 y=20 w=60 h=40 fill=#4a90d9 *
+│   └── circle#c1  cx=200 cy=100 r=30 fill=red *
+└── text#t1        (20,50) "hello" *
+svg> document commands:
+  init [w] [h]            new canvas (default 800x600); disables undo/redo
+  read <file.svg>         load svg file as current document
+  save [file.svg]         save document (default: path from read)
+  canvas [w] [h]          show canvas size, or resize it
+
+edit commands (undoable):
+  create <type> <id> [params...] [in <cid>]
+        types: rect <x> <y> <w> <h> [fill] | circle <cx> <cy> <r> [fill]
+               ellipse <cx> <cy> <rx> <ry> [fill] | line <x1> <y1> <x2> <y2> [stroke]
+               text <x> <y> "content" | g
+  delete <id>             remove shape (or whole subtree)
+  move <id> <dx> <dy>     translate
+  scale <id> <factor>     uniform scaling
+  set <id> <attr> <value> set whitelisted attribute
+  group <newGid> <id>...  collect existing shapes into a new container
+  ungroup <gid>           dissolve a non-top-level container
+  addto <gid> <id>        move a shape into a container (last child)
+  front <id> / back <id>  z-order within siblings
+
+display commands:
+  tree [id]               structure tree with inline geometry
+  show <id>               attribute details of one shape
+  help                    this text
+
+undo/redo:
+  undo / redo             one edit command per unit; io commands lock them
+
+  lines starting with '#' are comments; quote args containing spaces
+
+plugin commands:
+  stats  count shapes by type (DFS order), total leaves and containers
+  dir    list entries of the current working directory
+svg> bye

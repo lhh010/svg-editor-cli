@@ -1,0 +1,11 @@
+# Phase 2 新增命令会话（stats / dir 插件）
+init 400 300
+create rect bg 0 0 400 300 #f8f9fa
+create g scene
+create rect r1 20 20 60 40 #4a90d9 in scene
+create circle c1 200 100 30 red in scene
+create text t1 20 50 "hello"
+stats
+tree
+help
+exit
