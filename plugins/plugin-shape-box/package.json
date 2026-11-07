@@ -1,0 +1,6 @@
+{
+  "name": "@local/plugin-shape-box",
+  "version": "0.1.0",
+  "main": "index.js",
+  "contributes": { "shapes": ["box"], "attributes": ["box-attributes"] }
+}

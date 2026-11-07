@@ -4,6 +4,7 @@ import { createApp, activateBuiltins, activatePlugin, App, PluginDefinition } fr
 import { PluginLoader } from "./PluginLoader";
 import pluginStats from "../../plugins/plugin-cmd-stats";
 import pluginDir from "../../plugins/plugin-cmd-dir";
+import pluginShapeBox from "../../plugins/plugin-shape-box";
 
 /**
  * CLI 入口。三种启动形态：
@@ -17,7 +18,8 @@ function wiredPlugins(): PluginDefinition[] {
   return [
     pluginStats,
     pluginDir,
-    // Phase 2 后续节点逐步加入：shape-box / decorator-star / decorator-box-label
+    pluginShapeBox,
+    // Phase 2 后续节点逐步加入：decorator-star / decorator-box-label
   ];
 }
 
