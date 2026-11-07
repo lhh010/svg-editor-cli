@@ -1,6 +1,5 @@
 import * as fs from "node:fs";
 import { SvgDocument } from "../document/SvgDocument";
-import { ShapeFactory } from "../shapes/ShapeFactory";
 import { Shape } from "../shapes/Shape";
 import { Group } from "../shapes/Group";
 import { Command } from "../commands/Command";
@@ -8,17 +7,21 @@ import { CommandHistory } from "../commands/CommandHistory";
 import { SvgReader } from "../io/SvgReader";
 import { SvgWriter } from "../io/SvgWriter";
 import { CliError } from "../errors/CliError";
+import { KernelRegistries, EventBus } from "../kernel/Registries";
 
 /**
- * 编辑器门面：持有当前文档、工厂与命令历史。
- * 文档类命令（init/read/save/canvas 改尺寸）在此处理并锁 io；
- * 编辑类命令构造为 Command 交由历史管理。
+ * 编辑器门面：持有当前文档、四个扩展点注册表与命令历史。
+ * 内核只经注册表消费扩展（图形类型、命令、树标签、属性处理器）。
  */
 export class Editor {
   private doc: SvgDocument | null = null;
-  readonly factory = new ShapeFactory();
   readonly history = new CommandHistory();
+  readonly events = new EventBus();
   filePath: string | null = null;
+
+  constructor(readonly registries: KernelRegistries) {
+    registries.editorRef = this;
+  }
 
   requireDocument(): SvgDocument {
     if (this.doc === null) throw new CliError("no document. use 'init' or 'read' first");
@@ -36,13 +39,15 @@ export class Editor {
     this.filePath = null;
     this.history.reset();
     this.history.lockIo();
+    this.events.emit({ type: "init" });
   }
 
   loadSource(source: string, path: string): { warnings: string[]; count: number } {
     let result;
     try {
-      result = new SvgReader().read(source);
+      result = new SvgReader(this.registries).read(source);
     } catch (e) {
+      if (e instanceof CliError) throw e;
       throw new CliError("cannot read file: " + path);
     }
     const doc = new SvgDocument();
@@ -54,6 +59,7 @@ export class Editor {
     this.filePath = path;
     this.history.reset();
     this.history.lockIo();
+    this.events.emit({ type: "load", path });
     return { warnings: result.warnings, count: doc.elementCount() };
   }
 
@@ -78,6 +84,7 @@ export class Editor {
     }
     this.filePath = target;
     this.history.lockIo();
+    this.events.emit({ type: "save", path: target });
     return target;
   }
 

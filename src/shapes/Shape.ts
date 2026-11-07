@@ -57,9 +57,24 @@ export abstract class Shape {
   /** set 白名单外的属性抛 InvalidAttributeError；返回旧值（null 表示原未设置）。 */
   abstract setAttribute(attr: string, value: string): string | null;
 
-  /** 命令回显标签："rect#r1"、"g#n1 (box)"。 */
+  /** 树形/结构显示标签："rect#r1"（复合类型的类型标注由树标签插件负责）。 */
   label(): string {
-    return this.kindLabel ? this.tag + "#" + this.id + " (" + this.kindLabel + ")" : this.tag + "#" + this.id;
+    return this.tag + "#" + this.id;
+  }
+
+  /** 命令回显标签：普通图形 "rect#r1"；复合类型用类型名，如 box 的 "box#n1"。 */
+  echoLabel(): string {
+    return this.kindLabel !== null ? this.kindLabel + "#" + this.id : this.tag + "#" + this.id;
+  }
+
+  /** create 成功时的自定义回显（复合类型可覆写，如 box 的结构摘要）；null 用默认格式。 */
+  creationEcho(): string | null {
+    return null;
+  }
+
+  /** 复合类型标记：非 null 时 ungroup 被拒绝（内部结构由插件所有）。 */
+  isComposite(): boolean {
+    return this.kindLabel !== null;
   }
 
   /** 公共属性序列化片段（不含 id）。 */

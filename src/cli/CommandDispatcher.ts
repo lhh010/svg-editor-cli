@@ -17,11 +17,16 @@ import { mustFind } from "../commands/Resolve";
 import { InvalidAttributeError } from "../shapes/Shape";
 
 /**
- * 命令分发（规范允许的两处名字分派之一）。
- * 每条命令返回要打印的行；失败抛 CliError/InvalidAttributeError，由 REPL 统一加 error: 前缀。
+ * 命令分发：内置命令（Phase 1 全集）直接分发；插件命令经 CommandRegistry 分发。
+ * 内置命令的名字集合注入注册表作为保留名，插件命令不得与之冲突。
  */
 export class CommandDispatcher {
-  constructor(private readonly editor: Editor) {}
+  private readonly editor: Editor;
+
+  constructor(editor: Editor) {
+    this.editor = editor;
+    editor.registries.reservedCommandNames = new Set<string>(BUILTIN_COMMANDS);
+  }
 
   async handle(line: string): Promise<string[]> {
     let tokens: Token[];
@@ -33,9 +38,13 @@ export class CommandDispatcher {
     if (tokens.length === 0) return [];
     const name = tokens[0].value;
     const args = tokens.slice(1);
+    const plugin = this.editor.registries.commands.find(name);
+    if (plugin !== undefined && !BUILTIN_COMMANDS.has(name)) {
+      return plugin.execute(args.map((t) => t.value), { editor: this.editor });
+    }
     switch (name) {
       case "help":
-        return Help.lines;
+        return [...Help.lines, ...this.pluginHelp()];
       case "init":
         return this.cmdInit(args);
       case "read":
@@ -61,7 +70,7 @@ export class CommandDispatcher {
         const attr = reqId(args[1], "set");
         const value = args.slice(2).map((t) => t.value).join(" ");
         if (args.length < 3) throw new CliError("usage: set <id> <attr> <value>");
-        return [this.editor.executeEdit(new SetCommand(this.editor.requireDocument(), id, attr, value))];
+        return [this.editor.executeEdit(new SetCommand(this.editor.requireDocument(), this.editor.registries, id, attr, value))];
       }
       case "group": {
         if (args.length < 2) throw new CliError("usage: group <newGid> <id> [<id>...]");
@@ -83,7 +92,7 @@ export class CommandDispatcher {
         const doc = this.editor.requireDocument();
         const id = args.length > 0 ? args[0].value : undefined;
         if (id !== undefined) mustFind(doc, id);
-        return new TreeRenderer().render(doc, id);
+        return new TreeRenderer(this.editor.registries.decorators.all()).render(doc, id);
       }
       case "show": {
         const shape = mustFind(this.editor.requireDocument(), reqId(args[0], "show"));
@@ -99,6 +108,17 @@ export class CommandDispatcher {
       default:
         throw new CliError("unknown command: " + name);
     }
+  }
+
+  private pluginHelp(): string[] {
+    const cmds = this.editor.registries.commands.all();
+    if (cmds.length === 0) return [];
+    const width = Math.max(...cmds.map((c) => c.usage.length));
+    const lines = ["", "plugin commands:"];
+    for (const c of cmds) {
+      lines.push("  " + c.usage.padEnd(width + 2) + c.summary);
+    }
+    return lines;
   }
 
   private cmdInit(args: Token[]): string[] {
@@ -143,10 +163,15 @@ export class CommandDispatcher {
       containerId = rest[rest.length - 1].value;
       rest = rest.slice(0, -2);
     }
-    const cmd = new CreateCommand(this.editor.requireDocument(), this.editor.factory, type, id, rest.map((t) => t.value), containerId);
+    const cmd = new CreateCommand(this.editor.requireDocument(), this.editor.registries, type, id, rest.map((t) => t.value), containerId);
     return [this.editor.executeEdit(cmd)];
   }
 }
+
+export const BUILTIN_COMMANDS: ReadonlySet<string> = new Set([
+  "help", "init", "read", "save", "canvas", "create", "delete", "move", "scale", "set",
+  "group", "ungroup", "addto", "front", "back", "tree", "show", "undo", "redo", "exit", "quit",
+]);
 
 function reqId(t: Token | undefined, cmd: string): string {
   if (t === undefined) throw new CliError("usage: " + cmd + " <id>");

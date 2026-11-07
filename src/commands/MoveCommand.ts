@@ -14,20 +14,20 @@ export class MoveCommand implements Command {
     this.shape = shape;
     if (shape.isContainer) {
       shape.moveBy(this.dx, this.dy);
-      return shape.label() + " moved by (" + S.fmt(this.dx) + "," + S.fmt(this.dy) + ")";
+      return shape.echoLabel() + " moved by (" + S.fmt(this.dx) + "," + S.fmt(this.dy) + ")";
     }
     shape.moveBy(this.dx, this.dy);
     const [ax, ay] = shape.anchor();
-    return shape.label() + " moved to (" + S.fmt(ax) + "," + S.fmt(ay) + ")";
+    return shape.echoLabel() + " moved to (" + S.fmt(ax) + "," + S.fmt(ay) + ")";
   }
 
   undo(): string {
     const shape = this.shape!;
     shape.moveBy(-this.dx, -this.dy);
     if (shape.isContainer) {
-      return shape.label() + " moved back by (" + S.fmt(-this.dx) + "," + S.fmt(-this.dy) + ")";
+      return shape.echoLabel() + " moved back by (" + S.fmt(-this.dx) + "," + S.fmt(-this.dy) + ")";
     }
     const [ax, ay] = shape.anchor();
-    return shape.label() + " moved back to (" + S.fmt(ax) + "," + S.fmt(ay) + ")";
+    return shape.echoLabel() + " moved back to (" + S.fmt(ax) + "," + S.fmt(ay) + ")";
   }
 }

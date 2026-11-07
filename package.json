@@ -1,11 +1,12 @@
 {
   "name": "svg-editor-cli",
-  "version": "0.1.0",
-  "description": "CLI SVG editor (Fudan SD PJ1 Phase 1)",
+  "version": "0.2.0",
+  "description": "CLI SVG editor with plugin architecture (Fudan SD PJ1 Phase 2)",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "cli": "tsc -p tsconfig.json && node dist/cli/Main.js",
-    "test": "tsc -p tsconfig.json && node dist/tests/run.js"
+    "build": "tsc -p tsconfig.json && node scripts/copy-plugin-manifests.mjs",
+    "cli": "npm run build && node dist/src/host/Main.js",
+    "test": "npm run build && node dist/src/tests/run.js",
+    "metrics": "node scripts/metrics.mjs final HEAD"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

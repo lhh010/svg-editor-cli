@@ -71,11 +71,22 @@ export class Group extends Shape {
   }
 
   toXml(indent: string): string {
-    if (this._children.length === 0) return `${indent}<g id="${this.id}"${this.commonAttrXml()}/>`;
+    if (this._children.length === 0) return `${indent}<g id="${this.id}"${this.commonAttrXml()}${this.extraAttrXml()}/>`;
     const inner = this._children.map((c) => c.toXml(indent + "  ")).join("\n");
-    return `${indent}<g id="${this.id}"${this.commonAttrXml()}>
+    return `${indent}<g id="${this.id}"${this.commonAttrXml()}${this.extraAttrXml()}>
 ${inner}
 ${indent}</g>`;
+  }
+
+  /** 序列化时的附加属性（如复合类型插件的 data-kind 标记）；默认为空。 */
+  protected extraAttrXml(): string {
+    return "";
+  }
+
+  /** 子部件保护钩子：复合类型（如 box）可禁止必要子部件被摘除。 */
+  canDetach(child: Shape): boolean {
+    void child;
+    return true;
   }
 
   setAttribute(attr: string, value: string): string | null {

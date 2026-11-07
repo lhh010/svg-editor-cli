@@ -6,6 +6,9 @@ export interface XmlNode {
   text: string;        // 便捷字段：仅元素自身直接文本
 }
 
+/** 元素节点（与 XmlNode 同构，语义上排除文本节点）。 */
+export type SvgElementNode = XmlNode;
+
 export class XmlParser {
   static parse(src: string): XmlNode {
     const s = src

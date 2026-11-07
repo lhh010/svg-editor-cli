@@ -15,13 +15,13 @@ export class ScaleCommand implements Command {
     const shape = mustFind(this.doc, this.id);
     this.shape = shape;
     shape.scaleBy(this.factor);
-    return shape.label() + " scaled by " + S.fmt(this.factor);
+    return shape.echoLabel() + " scaled by " + S.fmt(this.factor);
   }
 
   undo(): string {
     const shape = this.shape!;
     shape.scaleBy(1 / this.factor);
     void InvalidAttributeError;
-    return shape.label() + " scaled by " + S.fmt(Math.round((1 / this.factor) * 1e6) / 1e6);
+    return shape.echoLabel() + " scaled by " + S.fmt(Math.round((1 / this.factor) * 1e6) / 1e6);
   }
 }

@@ -21,7 +21,7 @@ export class ZOrderCommand implements Command {
     else parent.insertChildAt(shape, 0);
     this.shape = shape;
     this.parent = parent;
-    return shape.label() + " moved to " + (this.front ? "front" : "back");
+    return shape.echoLabel() + " moved to " + (this.front ? "front" : "back");
   }
 
   undo(): string {

@@ -1,7 +1,15 @@
-import { Editor } from "../core/Editor";
 import { CommandDispatcher } from "../cli/CommandDispatcher";
 import { TreeRenderer } from "../view/TreeRenderer";
 import { SvgWriter } from "../io/SvgWriter";
+import { KernelRegistries } from "../kernel/Registries";
+import { createApp, activateBuiltins } from "../host/Assembly";
+
+/** Phase 1 回归：bare 装配（仅内置，无可选插件），行为须与 final tag 字节级一致。 */
+export function bareApp(): { dispatcher: CommandDispatcher; editor: ReturnType<typeof createApp>["editor"] } {
+  const registries = new KernelRegistries();
+  activateBuiltins(registries);
+  return createApp(registries);
+}
 
 /**
  * 验收测试：驱动真实的 Editor + CommandDispatcher（与 REPL 同一入口），
@@ -24,8 +32,8 @@ function expect(label: string, actual: unknown, expected: unknown): void {
 }
 
 async function session(commands: string[]): Promise<string[]> {
-  const editor = new Editor();
-  const d = new CommandDispatcher(editor);
+  const app = bareApp();
+  const d = app.dispatcher;
   const out: string[] = [];
   for (const c of commands) {
     try {
@@ -70,8 +78,7 @@ async function main(): Promise<void> {
   expect("undo delete", main1[13], "rect#box restored into g#markers");
 
   // 2. tree 输出
-  const editor = new Editor();
-  const d = new CommandDispatcher(editor);
+  const { editor, dispatcher: d } = bareApp();
   for (const c of [
     "init 800 600",
     "create rect bg 0 0 800 600 #ffffff",
@@ -127,8 +134,7 @@ async function main(): Promise<void> {
   expect("read tree line", other[4], "\u251C\u2500\u2500 text#t1        (10,290) \"imported\"");
 
   // 7. round-trip：save 后 read 回来结构一致
-  const ed2 = new Editor();
-  const dd = new CommandDispatcher(ed2);
+  const { dispatcher: dd, editor: ed2 } = bareApp();
   for (const c of ["init 400 300", "create circle c1 50 50 10 red", "create g g1", "addto g1 c1", "scale c1 2"]) {
     await dd.handle(c);
   }
