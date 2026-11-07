@@ -1,0 +1,21 @@
+{
+  "name": "svg-svg-tools",
+  "displayName": "SVG Tools (PJ1 Phase 2)",
+  "description": "SVG file badge ([] in Explorer) and native Outline for SVG documents",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "test": "tsc -p tsconfig.json && node tests/outline.test.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.5.4"
+  }
+}

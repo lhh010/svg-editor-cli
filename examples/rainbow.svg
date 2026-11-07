@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="620" viewBox="0 0 800 620">
+  <rect id="bg" x="0" y="0" width="800" height="620" fill="#111111"/>
+  <g id="rainbow">
+    <circle id="r1" cx="400" cy="330" r="220" fill="#e74c3c"/>
+    <circle id="r2" cx="400" cy="330" r="190" fill="#e67e22"/>
+    <circle id="r3" cx="400" cy="330" r="160" fill="#f1c40f"/>
+    <circle id="r4" cx="400" cy="330" r="130" fill="#2ecc71"/>
+    <circle id="r5" cx="400" cy="330" r="100" fill="#1abc9c"/>
+    <circle id="r6" cx="400" cy="330" r="70" fill="#3498db"/>
+    <circle id="r7" cx="400" cy="330" r="40" fill="#9b59b6"/>
+  </g>
+  <text id="t" x="382" y="337" fill="white">SVG!</text>
+</svg>

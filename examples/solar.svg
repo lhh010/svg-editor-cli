@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640">
+  <rect id="bg" x="0" y="0" width="1000" height="640" fill="#0b1026"/>
+  <g id="solar">
+    <circle id="sun" cx="500" cy="320" r="70" fill="#f5a623"/>
+    <circle id="orbit1" cx="500" cy="320" r="150" fill="none" stroke="#556677" stroke-width="1.5"/>
+    <circle id="orbit2" cx="500" cy="320" r="240" fill="none" stroke="#556677" stroke-width="1.5"/>
+    <g id="mars">
+      <circle id="mars-body" cx="606" cy="214" r="10" fill="#d0021b"/>
+    </g>
+    <g id="earth-system">
+      <circle id="earth" cx="740" cy="320" r="24" fill="#4a90d9"/>
+      <circle id="moon" cx="792" cy="290" r="9" fill="#cccccc"/>
+    </g>
+    <g id="asteroid-belt">
+      <circle id="a1" cx="695" cy="320" r="3" fill="#8899aa"/>
+      <circle id="a2" cx="669" cy="222" r="3" fill="#8899aa"/>
+      <circle id="a3" cx="597" cy="151" r="3" fill="#8899aa"/>
+      <circle id="a4" cx="500" cy="125" r="3" fill="#8899aa"/>
+      <circle id="a5" cx="402" cy="151" r="3" fill="#8899aa"/>
+      <circle id="a6" cx="331" cy="222" r="3" fill="#8899aa"/>
+      <circle id="a7" cx="305" cy="320" r="3" fill="#8899aa"/>
+      <circle id="a8" cx="331" cy="417" r="3" fill="#8899aa"/>
+      <circle id="a9" cx="402" cy="489" r="3" fill="#8899aa"/>
+      <circle id="a10" cx="500" cy="515" r="3" fill="#8899aa"/>
+      <circle id="a11" cx="597" cy="489" r="3" fill="#8899aa"/>
+      <circle id="a12" cx="669" cy="417" r="3" fill="#8899aa"/>
+    </g>
+  </g>
+  <text id="caption" x="380" y="612" fill="#aabbcc">太阳系示意（嵌套 group + 轨道）</text>
+</svg>

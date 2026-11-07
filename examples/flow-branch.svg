@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500">
+  <rect id="bg" x="0" y="0" width="900" height="500" fill="#f8f9fa"/>
+  <text id="title" x="410" y="50" fill="#333333">分支流程图</text>
+  <g id="flow">
+    <g id="start-node">
+      <rect id="s" x="80" y="220" width="160" height="60" fill="#4a90d9"/>
+      <text id="s-label" x="144" y="256" fill="white">开始</text>
+    </g>
+    <g id="cond">
+      <ellipse id="cond-shape" cx="430" cy="250" rx="90" ry="45" fill="#f5a623"/>
+      <text id="cond-label" x="388" y="256">数据 valid ?</text>
+    </g>
+    <g id="yes">
+      <rect id="y" x="650" y="130" width="190" height="60" fill="#7ed321"/>
+      <text id="y-label" x="676" y="166" fill="white">执行处理 A</text>
+    </g>
+    <g id="no">
+      <rect id="n" x="650" y="310" width="190" height="60" fill="#d0021b"/>
+      <text id="n-label" x="676" y="346" fill="white">执行处理 B</text>
+    </g>
+    <line id="l0" x1="240" y1="250" x2="340" y2="250" stroke="black"/>
+    <line id="l1" x1="520" y1="250" x2="650" y2="160" stroke="black"/>
+    <line id="l2" x1="520" y1="250" x2="650" y2="340" stroke="black"/>
+    <text id="yes-lbl" x="545" y="195">yes</text>
+    <text id="no-lbl" x="545" y="320">no</text>
+  </g>
+</svg>

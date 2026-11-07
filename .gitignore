@@ -1,5 +1,7 @@
 node_modules/
 dist/
-*.svg
 *.log
+vscode-svg-tools/out/
+# SVG 产物不入库；测试 fixture 与扩展示例除外
 !src/tests/fixtures/*.svg
+!vscode-svg-tools/example.svg
