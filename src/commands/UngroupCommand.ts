@@ -17,7 +17,7 @@ export class UngroupCommand implements Command {
   execute(): string {
     const shape = mustFind(this.doc, this.gid);
     if (!(shape instanceof Group)) throw new CliError("not a container: " + this.gid);
-    if (shape.kindLabel !== null) throw new CliError("cannot ungroup composite shape: " + this.gid);
+    if (shape.isComposite()) throw new CliError("cannot ungroup composite shape: " + this.gid);
     if (shape.parent === null) throw new CliError("cannot ungroup top-level container: " + this.gid);
     const parent = holderOf(this.doc, shape);
     this.index = parent.indexOf(shape);
@@ -30,7 +30,7 @@ export class UngroupCommand implements Command {
     this.doc.releaseId(this.gid);
     this.group = shape;
     this.parent = parent;
-    return shape.label() + " ungrouped (" + this.children.length + " children promoted)";
+    return shape.echoLabel() + " ungrouped (" + this.children.length + " children promoted)";
   }
 
   undo(): string {
@@ -39,6 +39,6 @@ export class UngroupCommand implements Command {
     for (const c of this.children) group.appendChild(c);
     this.parent!.insertChildAt(group, this.index);
     this.doc.registerId(this.gid);
-    return group.label() + " restored";
+    return group.echoLabel() + " restored";
   }
 }

@@ -20,6 +20,9 @@ export class AddtoCommand implements Command {
     if (shape.isContainer && isDescendantOf(target, shape)) {
       throw new CliError("cannot move a container into its own descendant: " + this.id);
     }
+    if (shape.parent !== null && !shape.parent.canDetach(shape)) {
+      throw new CliError("cannot detach protected child: " + this.id);
+    }
     const parent = holderOf(this.doc, shape);
     this.oldParent = parent;
     this.oldIndex = parent.indexOf(shape);
@@ -27,13 +30,13 @@ export class AddtoCommand implements Command {
     target.appendChild(shape);
     this.shape = shape;
     this.targetLabel = target.label();
-    return shape.label() + " added to " + this.targetLabel;
+    return shape.echoLabel() + " added to " + this.targetLabel;
   }
 
   undo(): string {
     const shape = this.shape!;
     this.oldParent!.insertChildAt(shape, this.oldIndex);
-    return shape.label() + " removed from " + this.targetLabel;
+    return shape.echoLabel() + " removed from " + this.targetLabel;
   }
 }
 

@@ -35,6 +35,11 @@ export class GroupCommand implements Command {
         }
       }
     }
+    for (const s of shapes) {
+      if (s.parent !== null && !s.parent.canDetach(s)) {
+        throw new CliError("cannot detach protected child: " + s.id);
+      }
+    }
     const group = new Group(this.newGid);
     this.placements = shapes.map((s) => {
       const parent = holderOf(this.doc, s);
@@ -45,7 +50,7 @@ export class GroupCommand implements Command {
     this.doc.root.appendChild(group);
     this.doc.registerId(this.newGid);
     this.group = group;
-    return group.label() + " created with " + shapes.length + " children";
+    return group.echoLabel() + " created with " + shapes.length + " children";
   }
 
   undo(): string {
