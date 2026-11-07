@@ -1,6 +1,8 @@
 # PJ1 Phase 2 提交文档：插件实践与插件式重构
 
-> 仓库：https://github.com/lhh010/svg-editor-cli （Phase 1 同仓库继续开发，tag `final` 未动，本阶段收尾打 `p2`）
+> 仓库：https://github.com/lhh010/svg-editor-cli
+> 
+>  （Phase 1 同仓库继续开发，tag `final` 未动，本阶段收尾打 `p2`）
 > 架构决策（ADR）完整版、扩展点清单与过程记录见 `doc/README.md` 的 Phase 2 部分；本文是面向评阅的独立提交文档：设计阐述 + 关键代码 + 截图 + 说明。
 
 ## 0. 总览
@@ -18,7 +20,7 @@ svg-editor/
 │   ├── kernel/             #   ** 四个扩展点接口 + 注册表（暂存-提交-回滚）
 │   ├── builtin/            #   ** 内置六种图形的 ShapeProvider（默认装配注册）
 │   ├── host/               #   ** 组合根 Main / Assembly / 配置加载器 PluginLoader
-│   ├── shapes|document|commands|io|core|view|cli/   # Phase 1 内核（重构为面向接口）
+| │   ├── shapes|document|commands|io|core|view|cli/   # Phase 1 内核（重构为面向接口）
 │   └── tests/              # 测试入口
 ├── plugins/                # ** 五个可选插件包（各自 package.json 带 contributes）
 │   ├── plugin-cmd-stats/   #   stats 命令
@@ -52,10 +54,12 @@ node dist/src/host/Main.js --config plugins.config.json   # 方式 B：配置装
 
 扩展 = 两个"提供者"的注册与实现，宿主（VSCode）在恰当时机回调：
 
-| 功能 | 提供者接口 | VSCode 调用时机 | 我们的实现
-|-|-|-|-|
-A.1 文件标记 | `FileDecorationProvider` | 渲染 Explorer 每个资源时 | `.svg` 返回 `FileDecoration("[]")`，其余 undefined |
-A.2 大纲 | `DocumentSymbolProvider` | 大纲视图需要符号、文档变更后 | 解析全文 → DocumentSymbol 树（tag#id 命名） |
+
+| 功能       | 提供者接口                    | VSCode 调用时机       | 我们的实现                                         |
+| -------- | ------------------------ | ----------------- | --------------------------------------------- |
+| A.1 文件标记 | `FileDecorationProvider` | 渲染 Explorer 每个资源时 | `.svg` 返回 `FileDecoration("[]")`，其余 undefined |
+| A.2 大纲   | `DocumentSymbolProvider` | 大纲视图需要符号、文档变更后    | 解析全文 → DocumentSymbol 树（tag#id 命名）            |
+
 
 关键设计决策：**解析与建树逻辑不 import vscode**。`outline.ts` 产出纯数据 `OutlineNode`（行号/列号/嵌套），`extension.ts` 只做 vscode 类型适配——因此核心逻辑可在纯 node 环境测试（`npm test` 15 项断言），扩展层薄到只剩胶水。
 
@@ -117,7 +121,6 @@ export interface PosElement {
 - `OutlineNode`（纯数据）→ `DocumentSymbol`（vscode 类型）是对象适配器：核心逻辑与 VSCode 解耦、可独立测试。
 
 
-
 ---
 
 # 第二部分：CLI 插件式重构
@@ -153,10 +156,10 @@ export interface AttributeHandler {
 
 | 扩展点 | 内核调用位置 | 说明 |
 |-|-|-|
-ShapeProvider | `CreateCommand.execute`（`ShapeRegistry.create/has`）；`SvgReader.parseChild`（`providersFor`，注册逆序询问，具体者优先） | 图形的构造与读回完全经注册表 |
-Command | `CommandDispatcher.handle`（先查 `CommandRegistry.find`，未命中走内置 switch） | 内置命令名是保留名，插件命令不得冲突 |
-TreeDecorator | `TreeRenderer.render → tags`（按注册顺序逐行询问） | 渲染器与内核不因新增标签而改动 |
-AttributeHandler | `SetCommand.execute`（先查 `AttributeRegistry.find`，未命中回落 Phase 1 白名单） | `set` 内核无任何 box/fill/label 分支 |
+| ShapeProvider | `CreateCommand.execute`（`ShapeRegistry.create/has`）；`SvgReader.parseChild`（`providersFor`，注册逆序询问，具体者优先） | 图形的构造与读回完全经注册表 |
+| Command | `CommandDispatcher.handle`（先查 `CommandRegistry.find`，未命中走内置 switch） | 内置命令名是保留名，插件命令不得冲突 |
+| TreeDecorator | `TreeRenderer.render → tags`（按注册顺序逐行询问） | 渲染器与内核不因新增标签而改动 |
+| AttributeHandler | `SetCommand.execute`（先查 `AttributeRegistry.find`，未命中回落 Phase 1 白名单） | `set` 内核无任何 box/fill/label 分支 |
 
 ## 2.2 注册表：暂存—提交—回滚（同一条校验路径）
 
@@ -276,9 +279,6 @@ box-type-label 只依赖内核公开的 `Shape.kindLabel`，与 box 插件零依
 
 **判据证据**：接入各插件的提交（stats/dir `527ed74`、box 方式 A `08bd969`、box 方式 B `8978d25`、标签 `b90652a`）对内核与既有插件的 git diff 为空；双装配对 `cli-box`、`cli-plugins`、固定临时目录 `dir` 三组会话输出 fc /B 逐字节一致（`docs/verification/`）。
 
-
-
-
 ---
 
 # 测试、验证与指标
@@ -287,12 +287,12 @@ box-type-label 只依赖内核公开的 `Shape.kindLabel`，与 box 插件零依
 
 | 套件 | 断言 | 覆盖 |
 |-|-|-|
-Phase 1 回归 | 45 | 规范 §6 transcript 逐行、错误表、undo/redo、round-trip（bare 装配） |
-Phase 2 插件与装配 | 28 | stats 语义与 help；dir 替身（混合/隐藏/空/失败/稳定排序）+ 真实临时目录 + 未初始化可用 + 不动 undo 历史；加载器四类失败、重复注册回滚、非法配置；A/B 一致性（含 box 会话） |
-box | 26 | §6.1 版本 B 会话逐行、子部件保护、id 冲突、序列化读回、fill/label 撤销重做 |
-box 降级 | 32 | 未装插件读回降级为普通 g + 警告 + 可 ungroup |
-modified-star | 17 | 状态机全分支：编辑→保存→再编辑→undo→redo、load、保存点后新增 |
-标签并存 | 6 | `(box)` 与 `*` 组合行、无 box 插件时的缺省行为 |
+| Phase 1 回归 | 45 | 规范 §6 transcript 逐行、错误表、undo/redo、round-trip（bare 装配） |
+| Phase 2 插件与装配 | 28 | stats 语义与 help；dir 替身（混合/隐藏/空/失败/稳定排序）+ 真实临时目录 + 未初始化可用 + 不动 undo 历史；加载器四类失败、重复注册回滚、非法配置；A/B 一致性（含 box 会话） |
+| box | 26 | §6.1 版本 B 会话逐行、子部件保护、id 冲突、序列化读回、fill/label 撤销重做 |
+| box 降级 | 32 | 未装插件读回降级为普通 g + 警告 + 可 ungroup |
+| modified-star | 17 | 状态机全分支：编辑→保存→再编辑→undo→redo、load、保存点后新增 |
+| 标签并存 | 6 | `(box)` 与 `*` 组合行、无 box 插件时的缺省行为 |
 
 VSCode 扩展另测 15 项（`vscode-svg-tools` 目录 `npm test`，纯 node）：嵌套分组、无 id 元素、定位行号、编辑更新、四类不完整 XML 不崩溃。
 
@@ -310,8 +310,8 @@ VSCode 扩展另测 15 项（`vscode-svg-tools` 目录 `npm test`，纯 node）�
 
 | 对照 | 结果 |
 |-|-|
-方式 A vs 方式 B（`doc/transcript/cli-box.txt`、`cli-plugins.txt` 会话） | fc /B 无差异（`docs/verification/A-*.txt` vs `B-*.txt`） |
-固定临时目录下 dir 双装配 | fc /B 无差异 |
+| 方式 A vs 方式 B（`doc/transcript/cli-box.txt`、`cli-plugins.txt` 会话） | fc /B 无差异（`docs/verification/A-*.txt` vs `B-*.txt`） |
+| 固定临时目录下 dir 双装配 | fc /B 无差异 |
 --bare vs `final` tag 基线（`doc/transcript/cli-1.txt`） | fc /B 无差异 |
 
 ## 3.4 指标（`docs/metrics/`，脚本 `node scripts/metrics.mjs final HEAD` 生成，不接受手填）
@@ -322,15 +322,15 @@ VSCode 扩展另测 15 项（`vscode-svg-tools` 目录 `npm test`，纯 node）�
 
 | 项 | 扩展点 | 命令插件 | box | 标签 | 双装配 |
 |-|-|-|-|-|-|
-接口在内核侧 | 四个齐备 | ✓ | ✓ | ✓ | — |
-以类实现 | ✓ | ✓ | ✓ | ✓ | — |
-不反向依赖内核实现 | ✓ | ✓ | ✓ | ✓ | ✓ loader 无插件硬编码 |
-内核与既有插件差异=0 | ✓ | ✓（527ed74/08bd969/8978d25/b90652a 可复核） | ✓ | ✓ | ✓ |
-禁用可选扩展的缺省行为 | 四个均有 | unknown command | 降级为普通 g | 基线逐字节不变 | — |
-独立可测 | — | dir 含替身+真实双档 | 自建上下文 | 状态机独立测试 | 四条失败路径 |
-插件间协作 | — | — | `(box)` 标注 | 两标签并存 | 同一插件两装法 |
-输出逐字节一致 | — | — | — | — | ✓ 三组对照 |
-适配器模式 | — | ✓ DirectoryAccess | — | — | ✓ 两装法共用接口 |
+| 接口在内核侧 | 四个齐备 | ✓ | ✓ | ✓ | — |
+| 以类实现 | ✓ | ✓ | ✓ | ✓ | — |
+| 不反向依赖内核实现 | ✓ | ✓ | ✓ | ✓ | ✓ loader 无插件硬编码 |
+| 内核与既有插件差异=0 | ✓ | ✓（527ed74/08bd969/8978d25/b90652a 可复核） | ✓ | ✓ | ✓ |
+| 禁用可选扩展的缺省行为 | 四个均有 | unknown command | 降级为普通 g | 基线逐字节不变 | — |
+| 独立可测 | — | dir 含替身+真实双档 | 自建上下文 | 状态机独立测试 | 四条失败路径 |
+| 插件间协作 | — | — | `(box)` 标注 | 两标签并存 | 同一插件两装法 |
+| 输出逐字节一致 | — | — | — | — | ✓ 三组对照 |
+| 适配器模式 | — | ✓ DirectoryAccess | — | — | ✓ 两装法共用接口 |
 
 ## 3.6 过程与 ADR 索引
 

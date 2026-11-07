@@ -231,7 +231,7 @@ ShapeFactory --> LeafShapes
 
 REPL 会话：按规范 6.1 版本 A 逐步构建两节点流程图（`in` 子句建层级、容器移动、undo 回显、`save` 输出 8 elements）：
 
-![REPL 会话|450](images/repl-session.png)
+| ![REPL 会话|450](images/repl-session.png)
 
 
 验收测试：`npm test` 全部通过（45 项断言，0 失败），下方同时展示了 `git log --oneline` 的分步提交历史：
@@ -249,15 +249,15 @@ REPL 会话：按规范 6.1 版本 A 逐步构建两节点流程图（`in` 子�
 
 **分支流程图**（20 elements）：三层嵌套 group（flow → 各节点容器 → 叶子），椭圆判断节点 + 主干连线与双分支线，覆盖 `ellipse` 类型、多层 `in` 子句与 `set fill` 修改文字颜色：
 
-![分支流程图|600](images/example-flow-branch.png)
+| ![分支流程图|600](images/example-flow-branch.png)
 
 **太阳系示意**（30 elements）：`solar` 内嵌 `earth-system`、`mars`、`asteroid-belt` 多个子容器；轨道用 `fill none` + `set stroke/stroke-width` 画出无填充描边圆；12 颗小行星均匀分布在两条轨道之间的圆环上（每 30° 一颗，坐标按三角函数预计算）：
 
-![太阳系示意|600](images/example-solar.png)
+| ![太阳系示意|600](images/example-solar.png)
 
 **彩虹同心圆**（9 elements）：七层同心圆验证 z-order（后创建的圆覆盖先创建的），白字居中于最小圆内（按默认 16px 字号估宽定位）：
 
-![彩虹同心圆|600](images/example-rainbow.png)
+| ![彩虹同心圆|600](images/example-rainbow.png)
 
 
 ### 错误信息演示（规范 4.2 对照）
@@ -319,7 +319,7 @@ svg> undo
 error: undo not allowed after io command
 ```
 
-![错误信息演示（终端）|450](images/error-demo.png)
+| ![错误信息演示（终端）|450](images/error-demo.png)
 
 要点说明：
 
