@@ -1,4 +1,0 @@
-ARGS: @local/plugin-decorator-box-label,@local/plugin-shape-box
-ARGS: @local/plugin-decorator-box-label,@local/plugin-decorator-star,@local/plugin-shape-box
-ARGS: @local/plugin-decorator-box-label
-REJECTED: Error: unknown shape type: box (is the plugin loaded?) |     at CreateCommand.execute (D:\dd\复旦\软件设计\pj\svg-editor\dist\src\commands\CreateCommand.js:27:19) |     at Editor.executeEdit (D:\dd\复旦\软件设计\pj\svg-editor\dist\src\core\Editor.js:131:29) |     at CommandDispatcher.cmdCreate (D:\dd\复旦\软件设计\pj\svg-editor\dist\src\cli\CommandDispatcher.js:173:29) |     at CommandDispatcher.handle (D:\dd\复旦\软件设计\pj\svg-editor\dist\src\cli\CommandDispatcher.js:59:29) |     at treeOf (D:\dd\复旦\软件设计\pj\svg-editor\dist\plugins\plugin-decorator-box-label\label.test.js:33:26)
