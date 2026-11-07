@@ -5,6 +5,8 @@ import { PluginLoader } from "./PluginLoader";
 import pluginStats from "../../plugins/plugin-cmd-stats";
 import pluginDir from "../../plugins/plugin-cmd-dir";
 import pluginShapeBox from "../../plugins/plugin-shape-box";
+import pluginDecoratorStar from "../../plugins/plugin-decorator-star";
+import pluginDecoratorBoxLabel from "../../plugins/plugin-decorator-box-label";
 
 /**
  * CLI 入口。三种启动形态：
@@ -19,7 +21,8 @@ function wiredPlugins(): PluginDefinition[] {
     pluginStats,
     pluginDir,
     pluginShapeBox,
-    // Phase 2 后续节点逐步加入：decorator-star / decorator-box-label
+    pluginDecoratorBoxLabel,
+    pluginDecoratorStar,
   ];
 }
 

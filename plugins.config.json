@@ -2,6 +2,8 @@
   "plugins": [
     { "module": "./plugins/plugin-cmd-stats" },
     { "module": "./plugins/plugin-cmd-dir" },
-    { "module": "./plugins/plugin-shape-box" }
+    { "module": "./plugins/plugin-shape-box" },
+    { "module": "./plugins/plugin-decorator-box-label" },
+    { "module": "./plugins/plugin-decorator-star" }
   ]
 }

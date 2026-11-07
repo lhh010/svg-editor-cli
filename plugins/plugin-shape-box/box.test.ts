@@ -118,15 +118,16 @@ export async function runBoxDegradeTests(): Promise<void> {
   const os = await import("node:os");
   const path = await import("node:path");
   const tmp = path.join(os.tmpdir(), "box-degrade-" + Date.now() + ".svg");
-  fs.writeFileSync(tmp, '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><g id="n1" data-kind="box"><rect id="n1-rect" x="1" y="2" width="3" height="4"/><text id="n1-label" x="9" y="9">T</text></g></svg>');
+  fs.writeFileSync(tmp, '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><g id="wrap"><g id="n1" data-kind="box"><rect id="n1-rect" x="1" y="2" width="3" height="4"/><text id="n1-label" x="9" y="9">T</text></g></g></svg>');
   try {
     const out: string[] = [];
     try { out.push(...(await app.dispatcher.handle("read " + tmp))); } catch (e) { out.push("error: " + (e instanceof Error ? e.message : String(e))); }
     out.push(...(await app.dispatcher.handle("tree")));
     expect("degrade warning", out[0], 'warning: no plugin for data-kind "box", degraded <g id="n1"> to plain group');
-    expect("degrade read ok", out[1], "read " + tmp + " (3 elements)");
+    expect("degrade read ok", out[1], "read " + tmp + " (4 elements)");
     expect("degrade tree root", out[2], "svg (100x100)");
-    expect("degrade as plain g", out[3], "\u2514\u2500\u2500 g#n1");
+    expect("degrade wrapper line", out[3], "\u2514\u2500\u2500 g#wrap");
+    expect("degrade as plain g", out[4], "    \u2514\u2500\u2500 g#n1");
     const ug = await app.dispatcher.handle("ungroup n1");
     expect("degraded g can ungroup", ug[0], "g#n1 ungrouped (2 children promoted)");
   } finally {

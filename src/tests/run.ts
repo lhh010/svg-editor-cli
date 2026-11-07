@@ -5,6 +5,8 @@ import { KernelRegistries } from "../kernel/Registries";
 import { createApp, activateBuiltins } from "../host/Assembly";
 import { runPhase2Tests } from "./phase2.test";
 import { runBoxTests, runBoxDegradeTests } from "../../plugins/plugin-shape-box/box.test";
+import { runStarTests } from "../../plugins/plugin-decorator-star/star.test";
+import { runLabelTests } from "../../plugins/plugin-decorator-box-label/label.test";
 
 /** Phase 1 回归：bare 装配（仅内置，无可选插件），行为须与 final tag 字节级一致。 */
 export function bareApp(): { dispatcher: CommandDispatcher; editor: ReturnType<typeof createApp>["editor"] } {
@@ -215,6 +217,8 @@ async function main(): Promise<void> {
   await runPhase2Tests();
   await runBoxTests();
   await runBoxDegradeTests();
+  await runStarTests();
+  await runLabelTests();
   const p2 = process.exitCode;
   if (p2 !== undefined && p2 !== 0) process.exit(p2);
 }

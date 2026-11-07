@@ -1,0 +1,5 @@
+phase1 suite: passed 45, failed 0
+phase2 suite: passed 28, failed 0
+box suite: passed 26, failed 0
+box degrade suite: passed 32, failed 0
+star suite: passed 17, failed 0

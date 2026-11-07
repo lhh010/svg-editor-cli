@@ -1,0 +1,6 @@
+{
+  "name": "@local/plugin-decorator-star",
+  "version": "0.1.0",
+  "main": "index.js",
+  "contributes": { "decorators": ["modified-star"] }
+}

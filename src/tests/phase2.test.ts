@@ -9,6 +9,8 @@ import { DirCommand, InMemoryDirectoryAccess } from "../../plugins/plugin-cmd-di
 import pluginStats from "../../plugins/plugin-cmd-stats";
 import pluginDir from "../../plugins/plugin-cmd-dir";
 import pluginBox from "../../plugins/plugin-shape-box";
+import pluginDecoratorStar from "../../plugins/plugin-decorator-star";
+import pluginDecoratorBoxLabel from "../../plugins/plugin-decorator-box-label";
 
 /** Phase 2 插件与装配测试。 */
 
@@ -196,6 +198,8 @@ async function testAssemblyConsistency(): Promise<void> {
   activatePlugin(regA, pluginStats);
   activatePlugin(regA, pluginDir);
   activatePlugin(regA, pluginBox);
+  activatePlugin(regA, pluginDecoratorBoxLabel);
+  activatePlugin(regA, pluginDecoratorStar);
   const outA = (await run(appA.dispatcher, session)).join("\n");
 
   const regB = new KernelRegistries();

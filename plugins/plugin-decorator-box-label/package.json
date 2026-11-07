@@ -1,0 +1,6 @@
+{
+  "name": "@local/plugin-decorator-box-label",
+  "version": "0.1.0",
+  "main": "index.js",
+  "contributes": { "decorators": ["box-type-label"] }
+}
