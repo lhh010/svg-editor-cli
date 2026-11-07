@@ -75,15 +75,16 @@ export async function runBoxTests(): Promise<void> {
   expect("protected group", guard[4], "error: cannot detach protected child: n1-rect");
   expect("whole box deletes", guard[5], "box#n1 deleted");
 
-  // 5. 序列化与读回（装了插件）
+  // 5. 序列化与读回（装了插件；写到临时目录避免污染仓库）
+  const tmpFile = require("node:path").join(require("node:os").tmpdir(), "box-rt-p2.svg");
   const rt = await run(d, [
     'create box keep 0 0 50 20 "K"',
-    "save box-rt.svg",
-    "read box-rt.svg",
+    "save " + tmpFile,
+    "read " + tmpFile,
     "show keep-rect",
     'set keep label "K2"',
   ]);
-  expect("box roundtrip read", rt[2].startsWith("read box-rt.svg ("), true);
+  expect("box roundtrip read", rt[2].startsWith("read " + tmpFile + " ("), true);
   expect("box roundtrip is box", rt[6], 'box#keep label updated: "K2"');
 
   // 6. id 冲突：整条命令失败不留残迹
