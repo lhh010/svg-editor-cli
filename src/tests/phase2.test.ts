@@ -8,6 +8,7 @@ import { CommandDispatcher } from "../cli/CommandDispatcher";
 import { DirCommand, InMemoryDirectoryAccess } from "../../plugins/plugin-cmd-dir";
 import pluginStats from "../../plugins/plugin-cmd-stats";
 import pluginDir from "../../plugins/plugin-cmd-dir";
+import pluginBox from "../../plugins/plugin-shape-box";
 
 /** Phase 2 插件与装配测试。 */
 
@@ -194,6 +195,7 @@ async function testAssemblyConsistency(): Promise<void> {
   const appA = createApp(regA);
   activatePlugin(regA, pluginStats);
   activatePlugin(regA, pluginDir);
+  activatePlugin(regA, pluginBox);
   const outA = (await run(appA.dispatcher, session)).join("\n");
 
   const regB = new KernelRegistries();
