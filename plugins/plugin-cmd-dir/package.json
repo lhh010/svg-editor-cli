@@ -1,0 +1,6 @@
+{
+  "name": "@local/plugin-cmd-dir",
+  "version": "0.1.0",
+  "main": "index.js",
+  "contributes": { "commands": ["dir"] }
+}

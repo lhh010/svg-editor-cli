@@ -1,0 +1,6 @@
+{
+  "plugins": [
+    { "module": "./plugins/plugin-cmd-stats" },
+    { "module": "./plugins/plugin-cmd-dir" }
+  ]
+}

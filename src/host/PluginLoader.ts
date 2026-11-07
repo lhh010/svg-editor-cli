@@ -100,8 +100,7 @@ export class PluginLoader {
     }
     for (const c of candidates) {
       try {
-        require.resolve(c);
-        return c;
+        return require.resolve(c);
       } catch {
         continue;
       }

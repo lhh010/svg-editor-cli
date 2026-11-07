@@ -3,6 +3,7 @@ import { TreeRenderer } from "../view/TreeRenderer";
 import { SvgWriter } from "../io/SvgWriter";
 import { KernelRegistries } from "../kernel/Registries";
 import { createApp, activateBuiltins } from "../host/Assembly";
+import { runPhase2Tests } from "./phase2.test";
 
 /** Phase 1 回归：bare 装配（仅内置，无可选插件），行为须与 final tag 字节级一致。 */
 export function bareApp(): { dispatcher: CommandDispatcher; editor: ReturnType<typeof createApp>["editor"] } {
@@ -205,11 +206,14 @@ async function main(): Promise<void> {
   expect("front order", zo[5], "\u251C\u2500\u2500 rect#b     x=2 y=2 w=1 h=1");
   expect("front undo", zo[7], "rect#a moved back to previous z-order");
 
-  console.log("passed: " + passed + ", failed: " + failed);
+  console.log("phase1 suite: passed " + passed + ", failed " + failed);
   if (failures.length > 0) {
     console.log(failures.join("\n"));
     process.exit(1);
   }
+  await runPhase2Tests();
+  const p2 = process.exitCode;
+  if (p2 !== undefined && p2 !== 0) process.exit(p2);
 }
 
 void main();

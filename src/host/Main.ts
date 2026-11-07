@@ -2,6 +2,8 @@ import { KernelRegistries } from "../kernel/Registries";
 import { Repl } from "../cli/Repl";
 import { createApp, activateBuiltins, activatePlugin, App, PluginDefinition } from "./Assembly";
 import { PluginLoader } from "./PluginLoader";
+import pluginStats from "../../plugins/plugin-cmd-stats";
+import pluginDir from "../../plugins/plugin-cmd-dir";
 
 /**
  * CLI 入口。三种启动形态：
@@ -13,7 +15,9 @@ import { PluginLoader } from "./PluginLoader";
 /** 方式 A 装配的可选插件清单（接入新插件：import 后加入此数组，仅本装配文件改动）。 */
 function wiredPlugins(): PluginDefinition[] {
   return [
-    // Phase 2 节点逐步加入：cmd-stats / cmd-dir / shape-box / decorator-star / decorator-box-label
+    pluginStats,
+    pluginDir,
+    // Phase 2 后续节点逐步加入：shape-box / decorator-star / decorator-box-label
   ];
 }
 
