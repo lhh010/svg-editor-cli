@@ -9,6 +9,14 @@
   "categories": ["Other"],
   "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "svgTools.showOutline",
+        "title": "SVG Tools: Show Outline (manual test)"
+      }
+    ]
+  },
   "scripts": {
     "compile": "tsc -p tsconfig.json",
     "test": "tsc -p tsconfig.json && node tests/outline.test.mjs"

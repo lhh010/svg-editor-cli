@@ -339,6 +339,19 @@ error: undo not allowed after io command
 
 见 `vscode-svg-tools/README.md`：`npm install && npm run compile` 后用 VSCode 打开该目录按 F5 启动扩展开发宿主验证；解析与大纲构建逻辑（`src/parser.ts`、`src/outline.ts`）不依赖 vscode 模块，`npm test` 在纯 node 环境运行 15 项断言（嵌套分组、无 id 元素、编辑更新、不完整 XML 不崩溃）。
 
+
+### 运行截图（A.1 / A.2）
+
+**A.2 大纲与源码定位**（扩展开发宿主中打开 'svg-test-workspace/flow.svg'）：左侧 Outline 显示 'svg → g#flowchart → g#node1/node2 → 叶子' 的嵌套层级，无 id 的 'text' 元素仅显示标签名；点击大纲中的 'rect#process'，编辑器定位并高亮第 11 行开始标签；右侧资源管理器同时可见 'flow.svg' 的 '[]' 徽标：
+
+![VSCode 大纲与定位](../docs/images/vscode-outline.png)
+
+**A.1 徽标对照**：另一次定位（'rect#start' 高亮于第 6 行）——'.svg' 文件带 '[]' 标记，'notes.txt' 与目录不带：
+
+![VSCode 文件徽标](../docs/images/vscode-badge.png)
+
+> 注：宿主机器装有 SVG 语言扩展（语言模式 'svg'）且默认用图片预览打开——扩展的选择器已覆盖 'svg'/'xml' 语言关联，验证时以"打开方式 → 文本编辑器"查看源码即可。
+
 ### A.3.1 VSCode 与插件各自的职责
 
 VSCode（宿主）负责：窗口与视图（Explorer、Outline 面板）、文档模型与编辑事件、扩展进程管理与 API 暴露（`vscode` 模块）、在恰当时机**回调**插件注册的提供者。插件负责：实现具体的提供者接口并在 activate 时注册——本扩展注册两个：
